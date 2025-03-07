@@ -39,22 +39,31 @@ npm run dev
 
 ### Troubleshooting
 
-If you encounter the error "'vite' is not recognized as an internal or external command", try these solutions:
+If you encounter the error "'vite' is not recognized as an internal or external command" or "localhost not found" issues, try these solutions:
 
-**Option 1: Run the setup script**
+**Option 1: Use our easy start script (recommended)**
+```sh
+node start-dev.js
+```
+
+**Option 2: Run the setup script**
 ```sh
 node setup.js
 ```
 
-**Option 2: Use npx to run Vite**
+**Option 3: Use npx to run Vite**
 ```sh
-npx vite
+npx vite --host 0.0.0.0 --port 8080
 ```
 
-**Option 3: Install Vite globally**
+**Option 4: Install Vite globally**
 ```sh
 npm install -g vite
+vite --host 0.0.0.0 --port 8080
 ```
+
+**Option 5: Check for port conflicts**
+Port 8080 might be in use by another application. Try changing the port in vite.config.ts or stop other applications that might be using this port.
 
 **Use GitHub Codespaces**
 
