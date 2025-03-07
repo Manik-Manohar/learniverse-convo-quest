@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { BrainIcon, HeartIcon, UserIcon } from 'lucide-react';
+import { BrainIcon, HeartIcon, UserIcon, CheckCircleIcon, XCircleIcon } from 'lucide-react';
 
 export type MessageType = 'teacher' | 'peer' | 'user';
 
@@ -9,12 +9,16 @@ interface ConversationBubbleProps {
   type: MessageType;
   content: string;
   delay?: number;
+  isAnswer?: boolean;
+  isCorrect?: boolean;
 }
 
 const ConversationBubble: React.FC<ConversationBubbleProps> = ({ 
   type, 
   content,
-  delay = 0
+  delay = 0,
+  isAnswer = false,
+  isCorrect
 }) => {
   const bubbleVariants = {
     hidden: { 
@@ -35,6 +39,14 @@ const ConversationBubble: React.FC<ConversationBubbleProps> = ({
   };
 
   const getBubbleStyles = () => {
+    if (type === 'user' && isAnswer) {
+      if (isCorrect === true) {
+        return "bg-green-100 dark:bg-green-900/20 border border-green-300 dark:border-green-700 ml-auto";
+      } else if (isCorrect === false) {
+        return "bg-red-100 dark:bg-red-900/20 border border-red-300 dark:border-red-700 ml-auto";
+      }
+    }
+    
     switch (type) {
       case 'teacher':
         return "bg-primary/5 border border-primary/10";
@@ -74,6 +86,15 @@ const ConversationBubble: React.FC<ConversationBubbleProps> = ({
             <div className="w-7 h-7 rounded-full bg-secondary/30 flex items-center justify-center">
               <UserIcon className="w-4 h-4 text-secondary-foreground" />
             </div>
+            {isAnswer && isCorrect !== undefined && (
+              <div className="ml-2">
+                {isCorrect ? (
+                  <CheckCircleIcon className="w-5 h-5 text-green-500" />
+                ) : (
+                  <XCircleIcon className="w-5 h-5 text-red-500" />
+                )}
+              </div>
+            )}
           </div>
         );
       default:

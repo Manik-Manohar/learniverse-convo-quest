@@ -1,28 +1,43 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { SendIcon, RefreshCwIcon, LightbulbIcon } from 'lucide-react';
+import { SendIcon, RefreshCwIcon, LightbulbIcon, CheckCircleIcon, XCircleIcon } from 'lucide-react';
 import ConversationBubble, { MessageType } from './ConversationBubble';
+import { useToast } from "@/hooks/use-toast";
 
 interface Message {
   id: string;
   type: MessageType;
   content: string;
+  isAnswer?: boolean;
+  isCorrect?: boolean;
 }
 
 interface ConversationAreaProps {
   topicTitle: string;
   initialMessages?: Message[];
+  // Sample correct answers for demo purposes
+  correctAnswers?: string[];
 }
 
 const ConversationArea: React.FC<ConversationAreaProps> = ({ 
   topicTitle,
-  initialMessages = [] 
+  initialMessages = [],
+  // These are sample answers for demonstration
+  correctAnswers = [
+    "x = 5",
+    "O(n log n)",
+    "The derivative of x^2 is 2x",
+    "A balanced binary tree",
+    "Dynamic programming"
+  ]
 }) => {
   const [messages, setMessages] = useState<Message[]>(initialMessages);
   const [inputValue, setInputValue] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const { toast } = useToast();
 
   useEffect(() => {
     scrollToBottom();
@@ -32,27 +47,71 @@ const ConversationArea: React.FC<ConversationAreaProps> = ({
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
+  const checkAnswer = (userAnswer: string): boolean => {
+    if (currentQuestionIndex >= correctAnswers.length) {
+      return false;
+    }
+    
+    // Simple string matching (case insensitive)
+    // In a real app, you'd have more sophisticated answer validation
+    const isCorrect = userAnswer.toLowerCase().includes(correctAnswers[currentQuestionIndex].toLowerCase());
+    return isCorrect;
+  };
+
   const handleSendMessage = () => {
     if (inputValue.trim() === '') return;
 
+    const isAnswer = true;
+    const isCorrect = checkAnswer(inputValue);
+    
     // Add user message
     const userMessage: Message = {
       id: Date.now().toString(),
       type: 'user',
-      content: inputValue
+      content: inputValue,
+      isAnswer,
+      isCorrect
     };
     
     setMessages(prev => [...prev, userMessage]);
     setInputValue('');
     setIsProcessing(true);
 
+    // Show feedback toast
+    if (isCorrect) {
+      toast({
+        title: "Correct!",
+        description: "Great job! Your answer is correct.",
+        variant: "default",
+      });
+    } else {
+      toast({
+        title: "Not quite right",
+        description: "Try again or ask for a hint.",
+        variant: "destructive",
+      });
+    }
+
     // Simulate AI response after a delay
     setTimeout(() => {
-      const teacherResponse: Message = {
-        id: (Date.now() + 1).toString(),
-        type: 'teacher',
-        content: `I understand your question about ${inputValue}. Let me explain this concept in detail...`
-      };
+      let teacherResponse: Message;
+      
+      if (isCorrect) {
+        teacherResponse = {
+          id: (Date.now() + 1).toString(),
+          type: 'teacher',
+          content: `That's correct! ${inputValue} is the right answer. Let me explain why...`
+        };
+        
+        // Move to next question for the next interaction
+        setCurrentQuestionIndex(prev => Math.min(prev + 1, correctAnswers.length - 1));
+      } else {
+        teacherResponse = {
+          id: (Date.now() + 1).toString(),
+          type: 'teacher',
+          content: `Your answer "${inputValue}" is not quite right. Let me provide some guidance...`
+        };
+      }
       
       setMessages(prev => [...prev, teacherResponse]);
       
@@ -61,7 +120,9 @@ const ConversationArea: React.FC<ConversationAreaProps> = ({
         const peerResponse: Message = {
           id: (Date.now() + 2).toString(),
           type: 'peer',
-          content: "That's a great explanation! I'd also add that you can think of this concept like..."
+          content: isCorrect 
+            ? "Excellent work! I'd also like to add that this concept connects to..."
+            : "Don't worry if you didn't get it right away. Here's another way to think about it..."
         };
         
         setMessages(prev => [...prev, peerResponse]);
@@ -75,6 +136,15 @@ const ConversationArea: React.FC<ConversationAreaProps> = ({
       e.preventDefault();
       handleSendMessage();
     }
+  };
+
+  const resetConversation = () => {
+    setMessages([]);
+    setCurrentQuestionIndex(0);
+    toast({
+      title: "Conversation Reset",
+      description: "Starting a new learning session.",
+    });
   };
 
   return (
@@ -93,6 +163,7 @@ const ConversationArea: React.FC<ConversationAreaProps> = ({
         <button 
           className="p-2 rounded-full hover:bg-secondary/50 text-muted-foreground hover:text-foreground transition-colors"
           title="Reset conversation"
+          onClick={resetConversation}
         >
           <RefreshCwIcon className="w-5 h-5" />
         </button>
@@ -105,6 +176,8 @@ const ConversationArea: React.FC<ConversationAreaProps> = ({
             type={message.type}
             content={message.content}
             delay={0.1 * index}
+            isAnswer={message.isAnswer}
+            isCorrect={message.isCorrect}
           />
         ))}
         {isProcessing && (
@@ -121,7 +194,7 @@ const ConversationArea: React.FC<ConversationAreaProps> = ({
         <div className="flex items-center space-x-2">
           <textarea
             className="flex-grow p-3 rounded-xl glass-input resize-none focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
-            placeholder="Ask a question or respond..."
+            placeholder="Type your answer or ask a question..."
             rows={1}
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
