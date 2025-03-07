@@ -7,7 +7,7 @@ import {
   PiIcon, 
   NetworkIcon, 
   SigmaIcon, 
-  CubeIcon, 
+  BoxIcon, 
   BarChart3Icon,
   TreePineIcon,
   HashIcon
@@ -69,7 +69,7 @@ const TopicsGrid = () => {
       path: "/learn/hash-tables"
     },
     {
-      icon: <CubeIcon className="w-6 h-6 text-accent" />,
+      icon: <BoxIcon className="w-6 h-6 text-accent" />,
       title: "Dynamic Programming",
       description: "Solve complex optimization problems using memoization and tabulation methods.",
       questions: 5,
