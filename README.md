@@ -31,39 +31,42 @@ git clone <YOUR_GIT_URL>
 cd <YOUR_PROJECT_NAME>
 
 # Step 3: Install the necessary dependencies.
-npm i
+npm install
 
 # Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+npx vite --host
 ```
 
 ### Troubleshooting
 
-If you encounter the error "'vite' is not recognized as an internal or external command" or "localhost not found" issues, try these solutions:
+If you encounter errors when trying to run the project locally, try these solutions:
 
-**Option 1: Use our easy start script (recommended)**
+**Option 1: Use the start script (recommended)**
 ```sh
 node start-dev.js
 ```
 
-**Option 2: Run the setup script**
+**Option 2: Make sure Vite is installed**
 ```sh
-node setup.js
+npm install --save-dev vite
+npx vite --host
 ```
 
-**Option 3: Use npx to run Vite**
-```sh
-npx vite --host 0.0.0.0 --port 8080
-```
-
-**Option 4: Install Vite globally**
+**Option 3: Install Vite globally**
 ```sh
 npm install -g vite
-vite --host 0.0.0.0 --port 8080
+vite --host
 ```
 
+**Option 4: Check your browser URL**
+Make sure you're using the correct URL displayed in your terminal. By default, Vite runs on http://localhost:5173/ 
+unless configured otherwise in vite.config.ts.
+
 **Option 5: Check for port conflicts**
-Port 8080 might be in use by another application. Try changing the port in vite.config.ts or stop other applications that might be using this port.
+If another application is using the port, close it or configure Vite to use a different port with:
+```sh
+npx vite --host --port 3000
+```
 
 **Use GitHub Codespaces**
 
