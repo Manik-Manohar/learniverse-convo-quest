@@ -1,3 +1,4 @@
+
 # Welcome to your Lovable project
 
 ## Project info
@@ -36,11 +37,24 @@ npm i
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+### Troubleshooting
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+If you encounter the error "'vite' is not recognized as an internal or external command", try these solutions:
+
+**Option 1: Run the setup script**
+```sh
+node setup.js
+```
+
+**Option 2: Use npx to run Vite**
+```sh
+npx vite
+```
+
+**Option 3: Install Vite globally**
+```sh
+npm install -g vite
+```
 
 **Use GitHub Codespaces**
 
