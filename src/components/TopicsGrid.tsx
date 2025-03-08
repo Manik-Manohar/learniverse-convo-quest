@@ -4,24 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import TopicCard from './TopicCard';
 import { 
   BrainCircuitIcon, 
-  PiIcon, 
-  NetworkIcon, 
-  SigmaIcon, 
-  BoxIcon, 
-  BarChart3Icon,
-  TreePineIcon,
-  HashIcon,
-  LayoutListIcon,
-  ListFilterIcon,
-  WandIcon,
-  ReplaceIcon,
-  TimerIcon,
-  RotateCcwIcon,
-  LineChartIcon,
-  ScissorsIcon,
-  HeartIcon,
-  BinaryIcon,
-  Cpu
+  SigmaIcon
 } from 'lucide-react';
 import { useTopicsData } from '../hooks/useTopicsData';
 

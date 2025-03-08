@@ -24,6 +24,7 @@ import {
   ArrowUpRightIcon,
   GanttChartSquareIcon
 } from 'lucide-react';
+import React from 'react';
 
 // Mock function to simulate web scraping 
 // In a real app, this would be an API call to a backend service that does the scraping
@@ -80,9 +81,19 @@ const fetchScrapedData = async (url: string) => {
   };
 };
 
+// Define a type for the topic structure
+interface Topic {
+  icon: React.ReactNode;
+  title: string;
+  description: string;
+  questions: number;
+  category: string;
+  path: string;
+}
+
 export const useTopicsData = () => {
-  const [mathTopics, setMathTopics] = useState<any[]>([]);
-  const [dsaTopics, setDsaTopics] = useState<any[]>([]);
+  const [mathTopics, setMathTopics] = useState<Topic[]>([]);
+  const [dsaTopics, setDsaTopics] = useState<Topic[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -94,9 +105,9 @@ export const useTopicsData = () => {
         const mathData = await fetchScrapedData('https://www.geeksforgeeks.org/math-calculus/');
         
         // Initialize base topics
-        const mathTopicsData = [
+        const mathTopicsData: Topic[] = [
           {
-            icon: <SigmaIcon className="w-6 h-6 text-primary" />,
+            icon: React.createElement(SigmaIcon, { className: "w-6 h-6 text-primary" }),
             title: "Linear Algebra",
             description: "Master matrices, vectors, and linear transformations through interactive examples.",
             questions: 5,
@@ -104,7 +115,7 @@ export const useTopicsData = () => {
             path: "/learn/linear-algebra"
           },
           {
-            icon: <PiIcon className="w-6 h-6 text-primary" />,
+            icon: React.createElement(PiIcon, { className: "w-6 h-6 text-primary" }),
             title: "Calculus",
             description: "Explore derivatives, integrals, and limits with step-by-step explanations.",
             questions: 5,
@@ -112,7 +123,7 @@ export const useTopicsData = () => {
             path: "/learn/calculus"
           },
           {
-            icon: <NetworkIcon className="w-6 h-6 text-primary" />,
+            icon: React.createElement(NetworkIcon, { className: "w-6 h-6 text-primary" }),
             title: "Graph Theory",
             description: "Discover the principles of networks, paths, and connectivity through guided problems.",
             questions: 5,
@@ -120,7 +131,7 @@ export const useTopicsData = () => {
             path: "/learn/graph-theory"
           },
           {
-            icon: <BarChart3Icon className="w-6 h-6 text-primary" />,
+            icon: React.createElement(BarChart3Icon, { className: "w-6 h-6 text-primary" }),
             title: "Statistics",
             description: "Learn probability, distributions, and hypothesis testing with real-world examples.",
             questions: 5,
@@ -128,7 +139,7 @@ export const useTopicsData = () => {
             path: "/learn/statistics"
           },
           {
-            icon: <LineChartIcon className="w-6 h-6 text-primary" />,
+            icon: React.createElement(LineChartIcon, { className: "w-6 h-6 text-primary" }),
             title: "Differential Equations",
             description: "Learn to model and solve real-world problems using differential equations.",
             questions: 5,
@@ -136,7 +147,7 @@ export const useTopicsData = () => {
             path: "/learn/differential-equations"
           },
           {
-            icon: <GanttChartSquareIcon className="w-6 h-6 text-primary" />,
+            icon: React.createElement(GanttChartSquareIcon, { className: "w-6 h-6 text-primary" }),
             title: "Number Theory",
             description: "Explore properties and relationships of numbers and their applications.",
             questions: 5,
@@ -145,9 +156,9 @@ export const useTopicsData = () => {
           }
         ];
 
-        const dsaTopicsData = [
+        const dsaTopicsData: Topic[] = [
           {
-            icon: <TreePineIcon className="w-6 h-6 text-accent" />,
+            icon: React.createElement(TreePineIcon, { className: "w-6 h-6 text-accent" }),
             title: "Binary Trees",
             description: "Understand tree traversals, balancing, and optimization techniques with practice problems.",
             questions: 5,
@@ -155,7 +166,7 @@ export const useTopicsData = () => {
             path: "/learn/binary-trees"
           },
           {
-            icon: <HashIcon className="w-6 h-6 text-accent" />,
+            icon: React.createElement(HashIcon, { className: "w-6 h-6 text-accent" }),
             title: "Hash Tables",
             description: "Master hashing algorithms, collision resolution, and efficient lookup operations.",
             questions: 5,
@@ -163,7 +174,7 @@ export const useTopicsData = () => {
             path: "/learn/hash-tables"
           },
           {
-            icon: <BoxIcon className="w-6 h-6 text-accent" />,
+            icon: React.createElement(BoxIcon, { className: "w-6 h-6 text-accent" }),
             title: "Dynamic Programming",
             description: "Solve complex optimization problems using memoization and tabulation methods.",
             questions: 5,
@@ -171,7 +182,7 @@ export const useTopicsData = () => {
             path: "/learn/dynamic-programming"
           },
           {
-            icon: <BrainCircuitIcon className="w-6 h-6 text-accent" />,
+            icon: React.createElement(BrainCircuitIcon, { className: "w-6 h-6 text-accent" }),
             title: "Graph Algorithms",
             description: "Explore BFS, DFS, shortest paths, and minimum spanning tree algorithms.",
             questions: 5,
@@ -179,7 +190,7 @@ export const useTopicsData = () => {
             path: "/learn/graph-algorithms"
           },
           {
-            icon: <LayoutListIcon className="w-6 h-6 text-accent" />,
+            icon: React.createElement(LayoutListIcon, { className: "w-6 h-6 text-accent" }),
             title: "Sorting Algorithms",
             description: "Compare and implement various sorting techniques with time and space complexity analysis.",
             questions: 5,
@@ -187,7 +198,7 @@ export const useTopicsData = () => {
             path: "/learn/sorting-algorithms"
           },
           {
-            icon: <ListFilterIcon className="w-6 h-6 text-accent" />,
+            icon: React.createElement(ListFilterIcon, { className: "w-6 h-6 text-accent" }),
             title: "Searching Algorithms",
             description: "Master linear search, binary search, and hash-based searching methods.",
             questions: 5,
@@ -195,7 +206,7 @@ export const useTopicsData = () => {
             path: "/learn/searching-algorithms"
           },
           {
-            icon: <WandIcon className="w-6 h-6 text-accent" />,
+            icon: React.createElement(WandIcon, { className: "w-6 h-6 text-accent" }),
             title: "Greedy Algorithms",
             description: "Learn to make locally optimal choices to solve global optimization problems.",
             questions: 5,
@@ -203,7 +214,7 @@ export const useTopicsData = () => {
             path: "/learn/greedy-algorithms"
           },
           {
-            icon: <RotateCcwIcon className="w-6 h-6 text-accent" />,
+            icon: React.createElement(RotateCcwIcon, { className: "w-6 h-6 text-accent" }),
             title: "Recursion",
             description: "Build problem-solving skills using functions that call themselves.",
             questions: 5,
@@ -211,7 +222,7 @@ export const useTopicsData = () => {
             path: "/learn/recursion"
           },
           {
-            icon: <DatabaseIcon className="w-6 h-6 text-accent" />,
+            icon: React.createElement(DatabaseIcon, { className: "w-6 h-6 text-accent" }),
             title: "Array Data Structure",
             description: "Master the fundamentals of arrays and their applications in algorithm design.",
             questions: 5,
@@ -219,7 +230,7 @@ export const useTopicsData = () => {
             path: "/learn/arrays"
           },
           {
-            icon: <ArrowUpRightIcon className="w-6 h-6 text-accent" />,
+            icon: React.createElement(ArrowUpRightIcon, { className: "w-6 h-6 text-accent" }),
             title: "Linked Lists",
             description: "Understand singly linked, doubly linked, and circular linked list implementations.",
             questions: 5,
@@ -227,7 +238,7 @@ export const useTopicsData = () => {
             path: "/learn/linked-lists"
           },
           {
-            icon: <Cpu className="w-6 h-6 text-accent" />,
+            icon: React.createElement(Cpu, { className: "w-6 h-6 text-accent" }),
             title: "Bit Manipulation",
             description: "Explore bit-level operations to optimize algorithms and solve unique problems.",
             questions: 5,
@@ -235,7 +246,7 @@ export const useTopicsData = () => {
             path: "/learn/bit-manipulation"
           },
           {
-            icon: <BinaryIcon className="w-6 h-6 text-accent" />,
+            icon: React.createElement(BinaryIcon, { className: "w-6 h-6 text-accent" }),
             title: "String Algorithms",
             description: "Dive into pattern matching, string manipulation, and text processing techniques.",
             questions: 5,
