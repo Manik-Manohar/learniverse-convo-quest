@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { HelpCircleIcon, ExternalLinkIcon } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
 
 interface QuestionCardProps {
   question: string;
@@ -17,6 +18,7 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
   gfgLink
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
+  const { toast } = useToast();
   
   const getDifficultyColor = (level: number) => {
     switch (level) {
@@ -50,6 +52,19 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
       default:
         return "Beginner";
     }
+  };
+
+  const handleGetHint = () => {
+    toast({
+      title: "Hint Requested",
+      description: "Looking for the best way to help you...",
+      duration: 2000,
+    });
+    
+    // After a small delay, call the parent handler
+    setTimeout(() => {
+      onGetHint();
+    }, 500);
   };
 
   return (
@@ -96,7 +111,7 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
       
       <div className="flex justify-end mt-4">
         <button
-          onClick={onGetHint}
+          onClick={handleGetHint}
           className="flex items-center px-4 py-2 rounded-lg bg-primary/10 text-primary hover:bg-primary/20 transition-colors"
         >
           <HelpCircleIcon className="w-4 h-4 mr-2" />

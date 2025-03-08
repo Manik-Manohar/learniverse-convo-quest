@@ -3,6 +3,7 @@ import React from 'react';
 import Header from '../components/Header';
 import Hero from '../components/Hero';
 import TopicsGrid from '../components/TopicsGrid';
+import HowItWorks from '../components/HowItWorks';
 import Footer from '../components/Footer';
 
 const Index = () => {
@@ -18,6 +19,8 @@ const Index = () => {
             <TopicsGrid />
           </div>
         </section>
+        
+        <HowItWorks />
       </main>
       
       <Footer />

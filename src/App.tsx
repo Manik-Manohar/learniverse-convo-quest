@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import Index from "./pages/Index";
+import Explore from "./pages/Explore";
 import Learn from "./pages/Learn";
 import NotFound from "./pages/NotFound";
 
@@ -20,6 +21,7 @@ const App = () => (
         <AnimatePresence mode="wait">
           <Routes>
             <Route path="/" element={<Index />} />
+            <Route path="/explore" element={<Explore />} />
             <Route path="/learn/:topicId" element={<Learn />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
